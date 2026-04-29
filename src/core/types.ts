@@ -1,10 +1,18 @@
 export type MoviesResponse = {
   results: Array<{
+    name: string;
     id: number;
     original_title: string;
     poster_path: string;
   }>;
   total_pages: number;
+};
+
+export type GenresResponse = {
+  results: Array<{
+    id: number;
+    name: string;
+  }>;
 };
 
 export type MovieRepsonse = {

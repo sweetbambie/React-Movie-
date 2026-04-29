@@ -1,4 +1,4 @@
-export * from '@/views/CreditsView';
+export * from '@/views/movies/CreditsView';
 export * from '@/views/movies/EpisodeView';
 export * from '@/views/site/ErrorView';
 export * from '@/views/movies/GenreView';
