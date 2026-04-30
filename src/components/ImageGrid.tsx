@@ -1,28 +1,23 @@
-import { IMAGE_BASE_URL } from '@/core/constants';
+import { type ImageCell } from '@/core';
 
 type ImageGridProps = {
-  results: Array<{
-    id: number;
-    imagePath: string | null;
-    primaryText: string;
-    secondaryText?: string;
-  }>;
-  onClick?: (id: number) => void;
+  images: ImageCell[];
+  onClick?: (image: ImageCell) => void;
 };
 
-export const ImageGrid = ({ results, onClick }: ImageGridProps) => {
+export const ImageGrid = ({ images, onClick }: ImageGridProps) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-5">
-      {results.map((result) => (
+    <div className="grid grid-cols-5 gap-5">
+      {images.map((image) => (
         <div
-          key={result.id}
-          className="block bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] transition"
-          onClick={() => onClick?.(result.id)}
+          key={image.id}
+          className="relative bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:scale-[1.02] transition"
+          onClick={() => onClick?.(image)}
         >
-          <img className="w-full h-[280px] object-cover" src={`${IMAGE_BASE_URL}${result.imagePath}`} alt={result.primaryText} />
+          <img src={image.imageUrl} alt={image.primaryText} />
           <div className="p-3 text-center">
-            <p className="text-sm font-semibold truncate">{result.primaryText}</p>
-            {result.secondaryText && <p className="text-gray-400 text-xs">{result.secondaryText}</p>}
+            <p className="text-sm font-semibold truncate">{image.primaryText}</p>
+            {image.secondaryText && <p className="text-blue-400 font-semibold text-sm truncate">{image.secondaryText}</p>}
           </div>
         </div>
       ))}

@@ -1,61 +1,29 @@
-import { LinkGroup, Modal } from '@/components';
-import { IMAGE_BASE_URL, MOVIE_ENDPOINT, ORIGINAL_IMAGE_BASE_URL } from '@/core/constants';
-import type { MovieRepsonse } from '@/core/types';
+import { ImageGrid, Pagination } from '@/components';
+import { NOW_PLAYING_ENDPOINT, type ImageCell, type MovieRespsonse, getImageUrl} from '@/core';
 import { useTmdb } from '@/hooks';
-import { FaCalendarAlt } from 'react-icons/fa';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const MovieView = () => {
+export const NowPlayingView = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data } = useTmdb<MovieRepsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' }, [id]);
+  const [page, setPage] = useState<number>(1);
+  const { data } = useTmdb<MovieRespsonse>(NOW_PLAYING_ENDPOINT, { page }, [page]);
 
-  const trailerVideo =
-    data?.videos?.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.name?.toLowerCase().includes('official')) ||
-    data?.videos?.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer');
+  const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
+    id: result.id,
+    imageUrl: getImageUrl(result.poster_path),
+    primaryText: result.original_title,
+  }));
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
 
   return (
-    <Modal onClose={() => navigate(-1)}>
-      <div className="p-6 space-y-6">
-        <div
-          className="h-[420px] bg-cover bg-center rounded-2xl"
-          style={{
-            backgroundImage: `url(${ORIGINAL_IMAGE_BASE_URL}${data.backdrop_path})`,
-          }}
-        />
-        <div className="flex gap-8">
-          <img className="w-[220px] h-[330px] object-cover rounded-xl" src={`${IMAGE_BASE_URL}${data.poster_path}`} alt={data.title} />
-          <div className="flex-1 space-y-4">
-            <h1 className="text-3xl font-bold">{data.title}</h1>
-            <p className="text-gray-400 flex items-center gap-2">
-              <FaCalendarAlt />
-              {data.release_date}
-            </p>
-            <p className="text-gray-300">{data.overview}</p>
-            {trailerVideo && (
-              <div className="aspect-video">
-                <iframe
-                  className="w-full h-full rounded-xl"
-                  src={`https://www.youtube.com/embed/${trailerVideo.key}`}
-                  title="Movie Trailer"
-                  allowFullScreen
-                />
-              </div>
-            )}
-            <LinkGroup
-              options={[
-                { label: 'Credits', to: 'credits' },
-                { label: 'Reviews', to: 'reviews' },
-              ]}
-            />
-          </div>
-        </div>
-        <Outlet />
-      </div>
-    </Modal>
+    <section className="max-w-7xl mx-auto space-y-5 p-5">
+      <h1 className="text-3xl font-bold mb-4">Now Playing</h1>
+      <ImageGrid cells={gridData} onClick={(id) => navigate(`/movie/${id}/credits`)} />
+      <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
+    </section>
   );
 };

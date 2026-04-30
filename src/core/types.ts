@@ -1,10 +1,24 @@
-export type MoviesResponse = {
+export type MovieRespsonse = {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: string;
   results: Array<{
-    name: string;
     id: number;
     original_title: string;
     poster_path: string;
   }>;
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
   total_pages: number;
 };
 
@@ -58,4 +72,14 @@ export type SearchResponse = {
   }>;
   total_pages: number;
   total_results: number;
+};
+
+export type Media = 'movie' | 'tv';
+
+export type ImageCell = {
+  id: number;
+  imageUrl: string;
+  primaryText: string;
+  secondaryText?: string;
+  media?: Media;
 };
