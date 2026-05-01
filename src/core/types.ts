@@ -1,10 +1,3 @@
-export type GenresResponse = {
-  results: Array<{
-    id: number;
-    name: string;
-  }>;
-};
-
 export type MovieRespsonse = {
   id: number;
   title: string;
