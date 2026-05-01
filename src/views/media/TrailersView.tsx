@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const TrailerView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useTmdb<MovieRepsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' }, [id]);
+  const { data } = useTmdb<MovieRepsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
   const trailerVideo =
     data?.videos?.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.name?.toLowerCase().includes('official')) ||

@@ -9,7 +9,7 @@ export const TrendingView = () => {
   const [page, setPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const interval = searchParams.get('interval') || 'day';
-  const { data } = useTmdb<MovieRespsonse>(`${TRENDING_ENDPOINT}/${interval}`, { page, time_window: interval }, {});
+  const { data } = useTmdb<MovieRespsonse>(`${TRENDING_ENDPOINT}/${interval}`, { page, time_window: interval });
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
