@@ -1,5 +1,5 @@
 import { ImageGrid, Pagination } from '@/components';
-import { NOW_PLAYING_ENDPOINT, type ImageCell, type MovieRespsonse, getImageUrl} from '@/core';
+import { getImageUrl, NOW_PLAYING_ENDPOINT, type ImageCell, type MovieRespsonse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export const NowPlayingView = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const { data } = useTmdb<MovieRespsonse>(NOW_PLAYING_ENDPOINT, { page }, [page]);
+  const { data } = useTmdb<MovieRespsonse>(NOW_PLAYING_ENDPOINT, { page });
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
@@ -22,7 +22,7 @@ export const NowPlayingView = () => {
   return (
     <section className="max-w-7xl mx-auto space-y-5 p-5">
       <h1 className="text-3xl font-bold mb-4">Now Playing</h1>
-      <ImageGrid cells={gridData} onClick={(id) => navigate(`/movie/${id}/credits`)} />
+      <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );

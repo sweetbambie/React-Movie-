@@ -1,5 +1,5 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { type MoviesResponse, TRENDING_ENDPOINT } from '@/core';
+import { getImageUrl, type ImageCell, type MovieRespsonse, TRENDING_ENDPOINT } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -9,11 +9,11 @@ export const TrendingView = () => {
   const [page, setPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const interval = searchParams.get('interval') || 'day';
-  const { data } = useTmdb<MoviesResponse>(`${TRENDING_ENDPOINT}/${interval}`, { page, time_window: interval }, [page, interval]);
+  const { data } = useTmdb<MovieRespsonse>(`${TRENDING_ENDPOINT}/${interval}`, { page, time_window: interval }, {});
 
-  const gridData = (data?.results ?? []).map((result) => ({
+  const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
-    imagePath: result.poster_path,
+    imageUrl: getImageUrl(result.poster_path),
     primaryText: result.original_title,
   }));
 
@@ -22,9 +22,9 @@ export const TrendingView = () => {
   }
 
   return (
-    <section className="max-w-[1200px] mx-auto p-5 space-y-5">
+    <section className="max-w-7xl mx-auto space-y-5 p-5">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-3xl font-bold">Now Playing</h1>
+        <h1 className="text-3xl font-bold">Trending</h1>
         <ButtonGroup
           value={interval}
           options={[
@@ -34,7 +34,7 @@ export const TrendingView = () => {
           onClick={(value) => setSearchParams({ interval: value })}
         />
       </div>
-      <ImageGrid results={gridData} onClick={(id) => navigate(`/movie/${id}/credits`)} />
+      <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
