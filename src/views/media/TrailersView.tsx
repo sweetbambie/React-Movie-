@@ -1,13 +1,13 @@
 import { LinkGroup, Modal } from '@/components';
 import {  MOVIE_ENDPOINT } from '@/core/constants';
-import type { MovieRepsonse } from '@/core/types';
+import type { MovieRespsonse } from '@/core/types';
 import { useTmdb } from '@/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const TrailerView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useTmdb<MovieRepsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
+  const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
   const trailerVideo =
     data?.videos?.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.name?.toLowerCase().includes('official')) ||
