@@ -38,7 +38,12 @@ export const GenreView = () => {
             { label: 'Crime', value: '80' },
             { label: 'Family', value: '10751' },
           ]}
-          onClick={(value) => setSearchParams({ genre: value })}
+          onClick={
+            (value) => {
+              setSearchParams({ genre: value });
+              setPage(1);
+            }
+          }
         />
       </div>
       <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />

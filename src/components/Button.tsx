@@ -7,20 +7,16 @@ type ButtonProps = {
   onClick: () => void;
 };
 
-const baseStyles = 'inline-block px-6 py-3 rounded-2xl transition font-medium shadow-lg';
+const baseStyles = 'px-4 py-2 text-sm rounded-md transition font-medium disabled:opacity-50 disabled:cursor-not-allowed';
+
 const variants = {
-  primary: 'bg-blue-600 hover:bg-blue-500 text-white',
+  primary: 'bg-blue-500 hover:bg-blue-600 text-white',
   grey: 'bg-gray-700 hover:bg-gray-600 text-white',
 };
 
 export const Button = ({ children, variant = 'primary', disabled = false, onClick }: ButtonProps) => {
   return (
-    <button
-      type="button"
-      className={`${baseStyles} ${disabled ? variants['grey'] : variants[variant]}`}
-      disabled={disabled}
-      onClick={onClick}
-    >
+    <button type="button" className={`${baseStyles} ${variants[variant]}`} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   );

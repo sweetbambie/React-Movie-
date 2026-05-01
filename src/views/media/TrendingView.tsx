@@ -31,7 +31,10 @@ export const TrendingView = () => {
             { label: 'Today', value: 'day' },
             { label: 'Week', value: 'week' },
           ]}
-          onClick={(value) => setSearchParams({ interval: value })}
+          onClick={(value) => {
+            setSearchParams({ interval: value });
+            setPage(1); 
+          }}
         />
       </div>
       <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />
