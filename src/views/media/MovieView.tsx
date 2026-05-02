@@ -1,4 +1,4 @@
-import { LinkGroup, Modal, DetailItem} from '@/components';
+import { DetailItem, LinkGroup, Modal } from '@/components';
 import { type MovieRespsonse, getBackdropUrl, getImageUrl, MOVIE_ENDPOINT } from '@/core';
 import { useTmdb } from '@/hooks';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 export const MovieView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' }, );
+  const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
   const trailerVideo =
     data?.videos?.results.find(
@@ -19,13 +19,13 @@ export const MovieView = () => {
 
   return (
     <Modal onClose={() => navigate(-1)}>
-      <div className="grid grid-rows-[auto_1fr] h-full">
-        <img className="w-full h-[240px] object-cover rounded-2xl" src={getBackdropUrl(data.backdrop_path)} alt={data.title} />
-        <div className="grid grid-cols-[auto_1fr] gap-5 p-5 min-h-0">
-          <img className="w-[200px] object-cover rounded-xl" src={getImageUrl(data.poster_path)} alt={data.title} />
-          <div className="overflow-y-auto space-y-4">
+      <div className="grid h-full grid-rows-[auto_1fr]">
+        <img className="h-50 w-full rounded-2xl object-cover" src={getBackdropUrl(data.backdrop_path)} alt={data.title} />
+        <div className="grid min-h-0 grid-cols-[auto_1fr] gap-5 p-5">
+          <img className="w-50 rounded-xl object-cover" src={getImageUrl(data.poster_path)} alt={data.title} />
+          <div className="space-y-4 overflow-y-auto">
             <h1 className="text-3xl font-bold">{data.title}</h1>
-            <p className="text-gray-300 leading-relaxed">{data.overview}</p>
+            <p className="leading-relaxed text-gray-300">{data.overview}</p>
             <div className="grid grid-cols-2 gap-4 pt-2">
               <DetailItem label="Release" value={data.release_date} />
               <DetailItem label="Rating" value={data.vote_average} />
@@ -33,7 +33,7 @@ export const MovieView = () => {
             {trailerVideo && (
               <div className="aspect-video w-[50%]">
                 <iframe
-                  className="w-full h-full rounded-xl"
+                  className="h-full w-full rounded-xl"
                   src={`https://www.youtube.com/embed/${trailerVideo.key}`}
                   title={trailerVideo.name}
                   allowFullScreen

@@ -7,6 +7,7 @@ export type MovieRespsonse = {
   release_date: string;
   vote_average: string;
   results: Array<{
+    name: string;
     id: number;
     original_title: string;
     poster_path: string;
