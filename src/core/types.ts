@@ -44,6 +44,18 @@ export type ReviewsResponse = {
 };
 
 export type SeasonsResponse = {
+  poster_path(poster_path: any): string | undefined;
+  seasons: Array<{
+    id: number;
+    name: string;
+    air_date: string;
+    episode_count: number;
+    poster_path: string;
+    season_number: number;
+  }>;
+};
+
+export type EpisodeResponse = {
   name: string;
   overview: string;
   air_date: string;
@@ -76,4 +88,13 @@ export type ImageCell = {
   primaryText: string;
   secondaryText?: string;
   media?: Media;
+};
+
+export type PersonResponse = {
+  id: number;
+  profile_path: string;
+  biography: string;
+  birthday: string;
+  place_of_birth: string;
+  name: string;
 };
