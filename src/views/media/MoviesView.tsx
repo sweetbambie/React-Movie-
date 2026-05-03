@@ -2,19 +2,15 @@ import { ButtonGroup, ImageGrid, Pagination } from '@/components';
 import { getImageUrl, MOVIE_ENDPOINT, type ImageCell, type MovieRespsonse } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const MoviesView = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const filterType = searchParams.get('filterType') || 'now_playing';
+  const { filterType = 'now_playing' } = useParams();
+
   const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${filterType}`, { page });
-  
-  const updateParam = (value: string) => {
-    setSearchParams({ filterType: value });
-  };
-  
+
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
     imageUrl: getImageUrl(result.poster_path),
@@ -28,7 +24,7 @@ export const MoviesView = () => {
   return (
     <section className="max-w-7xl mx-auto space-y-5 p-5">
       <h1 className="text-3xl font-bold mb-4">Movies</h1>
-      <ButtonGroup 
+      <ButtonGroup
         value={filterType}
         options={[
           { label: 'Now Playing', value: 'now_playing' },
@@ -37,10 +33,10 @@ export const MoviesView = () => {
           { label: 'Upcoming', value: 'upcoming' },
         ]}
         onClick={(value) => {
-            updateParam(value);
-            setPage(1);
-          }}
-        />
+          navigate(`/movies/category/${value}`);
+          setPage(1);
+        }}
+      />
       <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
