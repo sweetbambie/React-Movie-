@@ -1,4 +1,5 @@
 export * from '@/views/media/CreditsView';
+export * from '@/views/media/CareerView';
 export * from '@/views/media/EpisodeView';
 export * from '@/views/site/ErrorView';
 export * from '@/views/media/GenreView';

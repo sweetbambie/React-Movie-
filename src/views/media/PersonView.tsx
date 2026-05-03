@@ -1,6 +1,7 @@
 import { getImageUrl, PERSON_ENDPOINT, type PersonResponse } from '@/core';
+import { LinkGroup } from '@/components';
 import { useTmdb } from '@/hooks';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Outlet } from 'react-router-dom';
 
 export const PersonView = () => {
   const { id } = useParams();
@@ -28,7 +29,13 @@ export const PersonView = () => {
         </div>
       </div>
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Careers</h2>
+        <LinkGroup
+            options={[
+              { label: 'Career', to: 'career' },
+              { label: 'Images', to: 'images' },
+            ]}
+          />
+          <Outlet />
       </div>
     </section>
   );

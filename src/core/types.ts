@@ -98,3 +98,16 @@ export type PersonResponse = {
   place_of_birth: string;
   name: string;
 };
+
+export type CareerResponse = {
+  cast: Array<{
+    id: number;
+    poster_path: string;
+    title: string;
+    character: string;
+    credit_id: string;
+    name: string;
+    first_air_date?: string;
+    media_type?: string;
+  }>
+};
