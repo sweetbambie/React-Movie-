@@ -1,5 +1,5 @@
 import { MainLayout } from '@/layouts/MainLayout';
-import { ErrorView, GenreView, HomeView, ReviewsView, TrendingView, MoviesView, TelevisionView, CreditsView, TrailerView } from '@/views';
+import { ErrorView, GenreView, HomeView, ReviewsView, TrendingView, MoviesView, TelevisionView, CreditsView, TrailerView, SeasonsView, EpisodeView } from '@/views';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MovieView } from './views/media/MovieView';
 
@@ -11,16 +11,26 @@ export const App = () => {
         <Route path="/movies" element={<Navigate to="/movies/category/now_playing" replace />} />
         <Route path="/movies/category/:filterType" element={<MoviesView />} />
 
-        <Route path="/tv" element={<Navigate to="/tv/category/airing_today" replace />} />
-        <Route path="/tv/category/:filterType" element={<TelevisionView />} />
-
         <Route path="/trending" element={<TrendingView />} />
         <Route path="/genres" element={<GenreView />} />
+
         <Route path="/movie/:id" element={<MovieView />}>
           <Route path="reviews" element={<ReviewsView />} />
           <Route path="credits" element={<CreditsView />} />
           <Route path="trailers" element={<TrailerView />} />
         </Route>
+
+      <Route path="/tv" element={<Navigate to="/tv/category/airing_today" replace />} />
+        <Route path="/tv/category/:filterType" element={<TelevisionView />} />
+        <Route path="/tv/show/:id" element={<MovieView />}>
+          <Route path="reviews" element={<ReviewsView />} />
+          <Route path="credits" element={<CreditsView />} />
+          <Route path="trailers" element={<TrailerView />} />
+          <Route path="seasons" element={<SeasonsView />} />
+        </Route>
+        <Route path="/tv/show/:id/season/:seasonNumber" element={<EpisodeView />} />
+
+
       </Route>
       <Route path="*" element={<ErrorView />} />
     </Routes>

@@ -77,7 +77,7 @@ export const GenreView = () => {
       </div>
       <ImageGrid
         images={gridData}
-        onClick={(image) => navigate(`/movie/${image.id}`)}
+        onClick={(image) => navigate(isMovie ? `/movie/${image.id}/credits` : `/tv/show/${image.id}/credits`)}
       />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>

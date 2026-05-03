@@ -1,16 +1,21 @@
 import { DetailItem, LinkGroup, Modal } from '@/components';
-import { type MovieRespsonse, getBackdropUrl, getImageUrl, MOVIE_ENDPOINT } from '@/core';
+import { type MovieRespsonse, getBackdropUrl, getImageUrl, MOVIE_ENDPOINT, TV_ENDPOINT} from '@/core';
 import { useTmdb } from '@/hooks';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 export const MovieView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
+  const { pathname } = useLocation();
+  const isTvRoute = pathname.startsWith('/tv/show/');
+  const endpoint = isTvRoute ? TV_ENDPOINT : MOVIE_ENDPOINT;
+  const { data } = useTmdb<MovieRespsonse>(`${endpoint}/${id}`, { append_to_response: 'videos' });
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
+  
+  const isTv = !!data.first_air_date;
 
   return (
     <Modal onClose={() => navigate(-1)}>
@@ -27,6 +32,7 @@ export const MovieView = () => {
             </div>
             <LinkGroup
               options={[
+                ...(isTv ? [{ label: 'Seasons', to: 'seasons' }] : []),
                 { label: 'Credits', to: 'credits' },
                 { label: 'Reviews', to: 'reviews' },
                 { label: 'Trailers', to: 'trailers' },

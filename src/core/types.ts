@@ -7,6 +7,7 @@ export type MovieRespsonse = {
   backdrop_path: string;
   release_date: string;
   vote_average: string;
+  first_air_date?: string;
   results: Array<{
     name: string;
     id: number;
@@ -39,6 +40,21 @@ export type ReviewsResponse = {
     id: string;
     author: string;
     content: string;
+  }>;
+};
+
+export type SeasonsResponse = {
+  name: string;
+  overview: string;
+  air_date: string;
+  poster_path: string;
+  episodes: Array<{
+    id: number;
+    name: string;
+    overview: string;
+    air_date: string;
+    episode_number: number;
+    still_path: string;
   }>;
 };
 

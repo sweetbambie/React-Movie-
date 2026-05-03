@@ -14,3 +14,5 @@ export const SEARCH_ENDPOINT = 'https://api.themoviedb.org/3/search/person';
 export const MOVIE_GENRES_ENDPOINT = 'https://api.themoviedb.org/3/discover/movie';
 export const TV_GENRES_ENDPOINT = 'https://api.themoviedb.org/3/discover/tv';
 export const GENRE_ENDPOINT = 'https://api.themoviedb.org/3/discover';
+
+export const SEASONS_ENDPOINT = 'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}'
