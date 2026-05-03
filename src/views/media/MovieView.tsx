@@ -32,7 +32,7 @@ export const MovieView = () => {
                 { label: 'Trailers', to: 'trailers' },
               ]}
             />
-            <Outlet />
+            <Outlet context={{data}} />
           </div>
         </div>
       </div>
