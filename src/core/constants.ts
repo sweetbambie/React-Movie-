@@ -17,5 +17,6 @@ export const GENRE_ENDPOINT = 'https://api.themoviedb.org/3/discover';
 
 export const SEASONS_ENDPOINT = 'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}'
 export const PERSON_ENDPOINT = 'https://api.themoviedb.org/3/person'
+export const IMAGES_ENDPOINT = 'https://api.themoviedb.org/3/person/{person_id}/images'
 
 

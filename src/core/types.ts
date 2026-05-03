@@ -111,3 +111,11 @@ export type CareerResponse = {
     media_type?: string;
   }>
 };
+
+export type ImagesResponse = {
+  cast: Array<{
+    id: number;
+    file_path: string;
+  }>
+};
+
