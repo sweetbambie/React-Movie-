@@ -9,12 +9,17 @@ export const TrendingView = () => {
   const [page, setPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const interval = searchParams.get('interval') || 'day';
-  const { data } = useTmdb<MovieRespsonse>(`${TRENDING_ENDPOINT}/${interval}`, { page, time_window: interval });
+  const mediaType = searchParams.get('mediaType') || 'movie';
+  const { data } = useTmdb<MovieRespsonse>(`${TRENDING_ENDPOINT}/${mediaType}/${interval}`, { page, time_window: interval });
+
+  const updateParam = (key: string, value: string) => {
+    setSearchParams({ mediaType, interval, [key]: value });
+  };
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
     imageUrl: getImageUrl(result.poster_path),
-    primaryText: result.original_title,
+    primaryText: result.original_title ?? result.name,
   }));
 
   if (!data) {
@@ -25,6 +30,14 @@ export const TrendingView = () => {
     <section className="max-w-7xl mx-auto space-y-5 p-5">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-bold">Trending</h1>
+        <ButtonGroup 
+          value={mediaType}
+          options={[
+            { label: 'Movies', value: 'movie' },
+            { label: 'TV Shows', value: 'tv' },
+          ]}
+          onClick={(value) => updateParam('mediaType', value)}
+        />
         <ButtonGroup
           value={interval}
           options={[
@@ -32,12 +45,12 @@ export const TrendingView = () => {
             { label: 'Week', value: 'week' },
           ]}
           onClick={(value) => {
-            setSearchParams({ interval: value });
-            setPage(1); 
+            updateParam('interval', value);
+            setPage(1);
           }}
         />
       </div>
-      <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}/credits`)} />
+      <ImageGrid images={gridData} onClick={(image) => navigate(`/movie/${image.id}`)} />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
