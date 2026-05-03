@@ -1,6 +1,7 @@
 export type MovieRespsonse = {
   id: number;
   title: string;
+  name?: string; 
   overview: string;
   poster_path: string;
   backdrop_path: string;
@@ -10,6 +11,7 @@ export type MovieRespsonse = {
     name: string;
     id: number;
     original_title: string;
+    original_name?: string;  
     poster_path: string;
   }>;
   videos?: {

@@ -8,11 +8,6 @@ export const MovieView = () => {
   const { id } = useParams();
   const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
-  const trailerVideo =
-    data?.videos?.results.find(
-      (video) => video.site === 'YouTube' && video.type === 'Trailer' && video.name?.toLowerCase().includes('official')
-    ) || data?.videos?.results.find((video) => video.site === 'YouTube' && video.type === 'Trailer');
-
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
@@ -30,20 +25,11 @@ export const MovieView = () => {
               <DetailItem label="Release" value={data.release_date} />
               <DetailItem label="Rating" value={data.vote_average} />
             </div>
-            {trailerVideo && (
-              <div className="aspect-video w-[50%]">
-                <iframe
-                  className="h-full w-full rounded-xl"
-                  src={`https://www.youtube.com/embed/${trailerVideo.key}`}
-                  title={trailerVideo.name}
-                  allowFullScreen
-                />
-              </div>
-            )}
             <LinkGroup
               options={[
                 { label: 'Credits', to: 'credits' },
                 { label: 'Reviews', to: 'reviews' },
+                { label: 'Trailers', to: 'trailers' },
               ]}
             />
             <Outlet />

@@ -1,4 +1,4 @@
-import { LinkGroup, Modal } from '@/components';
+import { Modal } from '@/components';
 import {  MOVIE_ENDPOINT } from '@/core/constants';
 import type { MovieRespsonse } from '@/core/types';
 import { useTmdb } from '@/hooks';
@@ -19,23 +19,17 @@ export const TrailerView = () => {
 
   return (
     <Modal onClose={() => navigate(-1)}>
-            <p className="text-gray-300">{data.overview}</p>
-            {trailerVideo && (
-              <div className="aspect-video">
-                <iframe
-                  className="w-full h-full rounded-xl"
-                  src={`https://www.youtube.com/embed/${trailerVideo.key}`}
-                  title="Movie Trailer"
-                  allowFullScreen
-                />
-              </div>
-            )}
-            <LinkGroup
-              options={[
-                { label: 'Credits', to: 'credits' },
-                { label: 'Reviews', to: 'reviews' },
-              ]}
+      <p className="text-gray-300">{data.overview}</p>
+        {trailerVideo && (
+          <div className="aspect-video">
+            <iframe
+            className="w-full h-full rounded-xl"
+            src={`https://www.youtube.com/embed/${trailerVideo.key}`}
+            title="Movie Trailer"
+            allowFullScreen
             />
+          </div>
+        )}
     </Modal>
   );
 };

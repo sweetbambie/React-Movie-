@@ -4,7 +4,7 @@ import { useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const NowPlayingView = () => {
+export const MoviesView = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const { data } = useTmdb<MovieRespsonse>(NOW_PLAYING_ENDPOINT, { page });
