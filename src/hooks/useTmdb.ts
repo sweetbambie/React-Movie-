@@ -21,9 +21,11 @@ export function useTmdb<T>(url: string, params: Record<string, unknown>) {
       } catch (error) {
         console.error(error);
       }
+
     };
 
     fetchData();
+    
 
     return () => controller.abort();
   }, [url, params]);
