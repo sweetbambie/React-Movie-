@@ -28,7 +28,9 @@ export const App = () => {
           <Route path="trailers" element={<TrailerView />} />
           <Route path="seasons" element={<SeasonsView />} />
         </Route>
+
         <Route path="/tv/show/:id/season/:seasonNumber" element={<EpisodeView />} />
+        
         <Route path="/person/:id" element={<PersonView />}>
           <Route path="career" element={<CareerView />} />
           <Route path="images" element={<ImagesView />} />

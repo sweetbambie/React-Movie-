@@ -113,7 +113,7 @@ export type CareerResponse = {
 };
 
 export type ImagesResponse = {
-  cast: Array<{
+  profiles: Array<{
     id: number;
     file_path: string;
   }>

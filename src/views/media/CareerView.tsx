@@ -20,12 +20,6 @@ export const CareerView = () => {
 
   return (
     <section className="max-w-7xl mx-auto p-5 space-y-8">
-      <button
-        onClick={() => navigate(-1)}
-        className="text-gray-400 hover:text-white text-sm flex items-center gap-2"
-      >
-        ← Back
-      </button>
       <h1 className="text-3xl font-bold">Career</h1>
       <ImageGrid
         images={gridData}
