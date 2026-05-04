@@ -70,15 +70,6 @@ export type EpisodeResponse = {
   }>;
 };
 
-export type SearchResponse = {
-  results: Array<{
-    id: number;
-    name: string;
-    profile_path: string | null;
-  }>;
-  total_pages: number;
-  total_results: number;
-};
 
 export type Media = 'movie' | 'tv';
 
@@ -119,3 +110,15 @@ export type ImagesResponse = {
   }>
 };
 
+export type SearchResponse = {
+  total_pages: number;
+  results: Array<{
+    id: number;
+    title?: string;
+    name?: string;
+    original_title?: string;
+    poster_path?: string;
+    profile_path?: string;
+    media_type?: string;
+  }>;
+};

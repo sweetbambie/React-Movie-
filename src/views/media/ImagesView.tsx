@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 
 export const ImagesView = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
   const { data } = useTmdb<ImagesResponse>(`${PERSON_ENDPOINT}/${id}/images`, {});
 
   if (!data) {
