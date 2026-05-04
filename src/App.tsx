@@ -12,7 +12,7 @@ export const App = () => {
         <Route path="/movies/category/:filterType" element={<MoviesView />} />
 
         <Route path="/trending" element={<TrendingView />} />
-        <Route path="/genres" element={<GenreView />} />
+        <Route path="/genre/:mediaType/:genre" element={<GenreView />} />
 
         <Route path="/movie/:id" element={<MovieView />}>
           <Route path="reviews" element={<ReviewsView />} />

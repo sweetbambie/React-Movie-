@@ -1,39 +1,37 @@
 import { ButtonGroup, ImageGrid, Pagination } from '@/components';
-import { getImageUrl, type MovieRespsonse, type ImageCell, MOVIE_GENRES_ENDPOINT, TV_GENRES_ENDPOINT} from '@/core';
+import { getImageUrl, type MovieRespsonse, type ImageCell, MOVIE_GENRES_ENDPOINT, TV_GENRES_ENDPOINT } from '@/core';
 import { useTmdb } from '@/hooks';
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const MOVIE_GENRES = [
-  { label: 'Action', value: '28' },
-  { label: 'Adventure', value: '12' },
-  { label: 'Animation', value: '16' },
-  { label: 'Crime', value: '80' },
-  { label: 'Family', value: '10751' },
-];
-
-const TV_GENRES = [
-  { label: 'Action & Adventure', value: '10759' },
-  { label: 'Animation', value: '16' },
-  { label: 'Comedy', value: '35' },
-  { label: 'Crime', value: '80' },
-  { label: 'Drama', value: '18' },
-];
+export const GENRES = {
+  movies: [
+    { label: 'Action', value: 'action', id: '28' },
+    { label: 'Adventure', value: 'adventure', id: '12' },
+    { label: 'Animation', value: 'animation', id: '16' },
+    { label: 'Crime', value: 'crime', id: '80' },
+    { label: 'Family', value: 'family', id: '10751' },
+  ],
+  tv: [
+    { label: 'Action & Adventure', value: 'action-adventure', id: '10759' },
+    { label: 'Animation', value: 'animation', id: '16' },
+    { label: 'Comedy', value: 'comedy', id: '35' },
+    { label: 'Crime', value: 'crime', id: '80' },
+    { label: 'Drama', value: 'drama', id: '18' },
+  ],
+};
 
 export const GenreView = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const genre = searchParams.get('genre') || '28';
+  const { mediaType = 'movies', genre = 'action' } = useParams();
 
-  const mediaType = searchParams.get('mediaType') || 'movie';
-  const isMovie = mediaType === 'movie';
-
-  const genres = isMovie ? MOVIE_GENRES : TV_GENRES;
-
+  const isMovie = mediaType === 'movies';
+  const genres = GENRES[mediaType as keyof typeof GENRES] ?? GENRES.movies;
+  const genreId = genres.find((g) => g.value === genre)?.id ?? genres[0].id;
   const endpoint = isMovie ? MOVIE_GENRES_ENDPOINT : TV_GENRES_ENDPOINT;
 
-  const { data } = useTmdb<MovieRespsonse>(endpoint, { page, with_genres: genre });
+  const { data } = useTmdb<MovieRespsonse>(endpoint, { page, with_genres: genreId });
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
@@ -42,11 +40,10 @@ export const GenreView = () => {
   }));
 
   const handleMediaTypeSwitch = (value: string) => {
-    const newGenres = value === 'movie' ? MOVIE_GENRES : TV_GENRES;
-    setSearchParams({ mediaType: value, genre: newGenres[0].value });
+    const newGenres = GENRES[value as keyof typeof GENRES] ?? GENRES.movies;
+    navigate(`/genre/${value}/${newGenres[0].value}`);
     setPage(1);
   };
-
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
@@ -57,10 +54,10 @@ export const GenreView = () => {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-bold">Genre</h1>
         <div className="flex flex-col items-end gap-3">
-        <ButtonGroup
+          <ButtonGroup
             value={mediaType}
             options={[
-              { label: 'Movies', value: 'movie' },
+              { label: 'Movies', value: 'movies' },
               { label: 'TV Shows', value: 'tv' },
             ]}
             onClick={handleMediaTypeSwitch}
@@ -69,7 +66,7 @@ export const GenreView = () => {
             value={genre}
             options={genres}
             onClick={(value) => {
-              setSearchParams({ mediaType, genre: value });
+              navigate(`/genre/${mediaType}/${value}`);
               setPage(1);
             }}
           />
@@ -77,9 +74,11 @@ export const GenreView = () => {
       </div>
       <ImageGrid
         images={gridData}
-        onClick={(image) => navigate(isMovie ? `/movie/${image.id}/credits` : `/tv/show/${image.id}/credits`)}
+        onClick={(image) =>
+          navigate(isMovie ? `/movie/${image.id}/credits` : `/tv/show/${image.id}/credits`)
+        }
       />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );
-};  
+};
