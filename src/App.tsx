@@ -11,7 +11,7 @@ export const App = () => {
         <Route path="/movies" element={<Navigate to="/movies/category/now_playing" replace />} />
         <Route path="/movies/category/:filterType" element={<MoviesView />} />
 
-        <Route path="/trending" element={<TrendingView />} />
+        <Route path="/trending/:mediaType/:interval" element={<TrendingView />} />
         <Route path="/genre/:mediaType/:genre" element={<GenreView />} />
 
         <Route path="/movie/:id" element={<MovieView />}>
