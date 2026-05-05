@@ -2,6 +2,7 @@ import { getImageUrl, PERSON_ENDPOINT, type PersonResponse } from '@/core';
 import { LinkGroup } from '@/components';
 import { useTmdb } from '@/hooks';
 import { useNavigate, useParams, Outlet } from 'react-router-dom';
+import { FaBirthdayCake } from "react-icons/fa";
 
 export const PersonView = () => {
   const { id } = useParams();
@@ -24,7 +25,10 @@ export const PersonView = () => {
         <img className="w-40 rounded-xl object-cover" src={getImageUrl(data.profile_path)} alt={data.name} />
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">{data.name}</h1>
-          <p className="text-gray-400 text-sm">{data.birthday}</p>
+          <div className="flex row gap-2">
+            <FaBirthdayCake />
+            <p className="text-gray-400 text-sm">{data.birthday}</p>
+          </div>
           <p className="text-gray-300 leading-relaxed">{data.biography}</p>
         </div>
       </div>
