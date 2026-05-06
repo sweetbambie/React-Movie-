@@ -17,6 +17,9 @@ export const MovieView = () => {
   
   const isTv = !!data.first_air_date;
 
+  const title = data.name ?? data.title;
+  const releaseDate = data.first_air_date ?? data.release_date;
+
   return (
     <Modal onClose={() => navigate(-1)}>
       <div className="grid h-full grid-rows-[auto_1fr]">
@@ -24,10 +27,10 @@ export const MovieView = () => {
         <div className="grid min-h-0 grid-cols-[auto_1fr] gap-5 p-5">
           <img className="w-50 rounded-xl object-cover" src={getImageUrl(data.poster_path)} alt={data.title} />
           <div className="space-y-4 overflow-y-auto">
-            <h1 className="text-3xl font-bold">{data.title}</h1>
+            <h1 className="text-3xl font-bold">{title}</h1>
             <p className="leading-relaxed text-gray-300">{data.overview}</p>
             <div className="grid grid-cols-2 gap-4 pt-2">
-              <DetailItem label="Release" value={data.release_date} />
+              <DetailItem label="Release" value={releaseDate} />
               <DetailItem label="Rating" value={data.vote_average} />
             </div>
             <LinkGroup
