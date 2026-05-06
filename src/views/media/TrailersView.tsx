@@ -1,10 +1,16 @@
-// import { TV_ENDPOINT, MOVIE_ENDPOINT } from '@/core/constants';
+import {  MOVIE_ENDPOINT, TV_ENDPOINT } from '@/core/constants';
 import type { MovieRespsonse } from '@/core/types';
-import { useOutletContext } from 'react-router-dom';
+import { useTmdb } from '@/hooks';
+import { useParams, useLocation } from 'react-router-dom';
 
 export const TrailerView = () => {
-  const { data, isTv } = useOutletContext<{ data: MovieRespsonse; isTv: boolean }>();
-  // const endpoint = isTv ? TV_ENDPOINT : MOVIE_ENDPOINT;
+  const { id } = useParams();
+  const { pathname } = useLocation();
+
+  const isTv = pathname.startsWith('/tv/show/');
+  const endpoint = isTv ? TV_ENDPOINT : MOVIE_ENDPOINT;
+
+  const { data } = useTmdb<MovieRespsonse>(`${endpoint}/${id}`, { append_to_response: 'videos' });
 
   const trailerVideo =
     data?.videos?.results.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.name?.toLowerCase().includes('official')) ||
@@ -15,22 +21,16 @@ export const TrailerView = () => {
   }
 
   return (
-    <section className="gap-8 flex-1 space-y-4">
-      <div className="flex-1 space-y-4">
+    <section className='gap-8 flex-1 space-y-4'>
+      <div className='flex-1 space-y-4'>
         <h1 className="text-3xl font-bold">Trailer</h1>
-        {trailerVideo ? (
+        {trailerVideo && (
           <div className="aspect-video">
-            <iframe
-              className="w-full h-full rounded-xl"
-              src={`https://www.youtube.com/embed/${trailerVideo.key}`}
-              title={isTv ? 'TV Show Trailer' : 'Movie Trailer'}
-              allowFullScreen
-            />
-          </div>
-        ) : (
-          <p className="text-gray-400">No trailer available.</p>
+            <iframe className="w-full h-full rounded-xl"
+            src={`https://www.youtube.com/embed/${trailerVideo.key}`} title="Movie Trailer" allowFullScreen />
+          </div> 
         )}
-      </div>
+      </div> 
     </section>
   );
 };
