@@ -11,6 +11,11 @@ export const GENRES = {
     { label: 'Animation', value: 'animation', id: '16' },
     { label: 'Crime', value: 'crime', id: '80' },
     { label: 'Family', value: 'family', id: '10751' },
+    { label: 'Fantasy', value: 'fantasy', id: '14' },
+    { label: 'History', value: 'history', id: '36' },
+    { label: 'Horror', value: 'horror', id: '27' },
+    { label: 'Mystery', value: 'mystery', id: '9648' },
+    { label: 'Sci-Fi', value: 'sci-fi', id: '878' },
   ],
   tv: [
     { label: 'Action & Adventure', value: 'action-adventure', id: '10759' },
@@ -18,6 +23,10 @@ export const GENRES = {
     { label: 'Comedy', value: 'comedy', id: '35' },
     { label: 'Crime', value: 'crime', id: '80' },
     { label: 'Drama', value: 'drama', id: '18' },
+    { label: 'Family', value: 'family', id: '10751' },
+    { label: 'Kids', value: 'kids', id: '10762' },
+    { label: 'Mystery', value: 'mystery', id: '9648' },
+    { label: 'Sci-Fi', value: 'sci-fi', id: '10765' },
   ],
 };
 
