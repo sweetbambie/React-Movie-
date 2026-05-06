@@ -11,10 +11,7 @@ export const CreditsView = () => {
   const isTv = pathname.startsWith('/tv/show/');
   const endpoint = isTv ? TV_ENDPOINT : MOVIE_ENDPOINT;
 
-  const { data } = useTmdb<CreditsResponse>(
-    isTv ? `${endpoint}/${id}/aggregate_credits` : `${endpoint}/${id}/credits`,
-    {}
-  );
+  const { data } = useTmdb<CreditsResponse>(isTv ? `${endpoint}/${id}/aggregate_credits` : `${endpoint}/${id}/credits`,{});
 
   const gridData: ImageCell[] = (data?.cast ?? []).map((result) => ({
     id: result.id,
