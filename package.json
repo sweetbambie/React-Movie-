@@ -1,5 +1,6 @@
 {
   "name": "7--router",
+  "description": "A React app for browsing movies and TV shows",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -39,3 +40,5 @@
     "vite": "^8.0.1"
   }
 }
+
+
